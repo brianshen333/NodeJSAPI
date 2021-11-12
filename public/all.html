@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>print all rows in DB</h1>
+    <script>
+      async function getData() {
+        const response = await fetch("/api");
+        const data = await response.json();
+        console.log(data);
+        for (item of data) {
+          let root = document.createElement("div");
+          let mood = document.createElement("div");
+          let date = document.createElement("div");
+          let dateString = new Date(item.timestamp).toString();
+          let geo = document.createElement("div");
+          mood.textContent = `mood:${item.mood}`;
+          geo.textContent = `${item.lat}, ${item.lon}`;
+          date.textContent = dateString;
+
+          root.append(mood, geo, date);
+          document.body.append(root);
+        }
+      }
+      getData();
+    </script>
+  </body>
+</html>

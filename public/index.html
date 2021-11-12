@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mysketch</title>
+    <script src="libraries/p5.js"></script>
+    <!-- <script src="libraries/p5.sound.js"></script> -->
+    <script src="index.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      canvas {
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      if ("geolocation" in navigator) {
+        console.log("geolocation available");
+        navigator.geolocation.getCurrentPosition(async function (position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          document.getElementById("latitude").innerText = lat;
+          document.getElementById("longitude").innerText = lon;
+          const data = { lat, lon };
+          const options = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          };
+          const api_url = ``;
+          const response = await fetch("/api", options);
+          const json = await response.json();
+          console.log(json);
+        });
+      } else {
+        console.log("geolocation not available");
+      }
+    </script>
+    <p>
+      latitude: <span id="latitude"></span>&deg; longitude:
+      <span id="longitude"></span>&deg;
+    </p>
+  </body>
+</html>
